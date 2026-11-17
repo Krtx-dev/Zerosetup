@@ -1,0 +1,38 @@
+$ zerosetup run fixtures/loopback-default --approve efe1cd01c6b9 -q
+
+ZEROSETUP  run
+
+
+  › Preparing environment
+     0.0s - container engine docker 29.5.2 (Ubuntu 24.04.4 LTS, aarch64)
+     0.0s - acquiring image docker.io/library/node:24-slim
+     0.0s [ok] image already present (node@sha256:01d566e8d94d8c619591d78652babfccd3c6992a3dffa9ed5ab39e11cf6c70e9, linux/arm64)
+     0.1s - copied 3 files (684 B) into workspace volume
+     0.1s - package cache volume zerosetup-cache-node is warm (reused from earlier runs)
+
+  › Installing dependencies
+     0.1s - Install dependencies: npm ci --no-audit --no-fund
+        │   up to date in 98ms
+     0.3s - Install dependencies finished with exit code 0 in 200ms
+     0.3s [ok] dependencies installed
+
+  › Starting application
+     0.4s [ok] process started: node server.js (container 74f366d5b62b, port 3000 → 127.0.0.1:4317)
+
+  › Verifying readiness
+     0.4s … waiting for readiness (0s elapsed, listening: 127.0.0.1:3000)
+    10.4s [x] The application listens on port 3000 only on the container's loopback interface
+
+  Diagnostics
+
+  [x] The application listens on port 3000 only on the container's loopback interface (ZS-DIAG-LOOPBACK, confidence high)
+      evidence: listening sockets: 127.0.0.1:3000
+      likely cause: The server binds 127.0.0.1/localhost, which is unreachable through Docker port publishing.
+      resolution: Make the server bind 0.0.0.0 inside the container. ZEROSETUP can set HOST=0.0.0.0, which many servers honour.
+      repair available: Set HOST=0.0.0.0 → zerosetup repair zs32e810ea --apply bind-all-interfaces
+
+
+  [x] ZS-READY-001  application listens on port 3000 only on 127.0.0.1 inside the container
+
+     → Run `zerosetup status zs32e810ea` for diagnostics and `zerosetup logs zs32e810ea` for application output.
+

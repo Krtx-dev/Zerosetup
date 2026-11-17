@@ -1,0 +1,6 @@
+{
+  "name": "fixture-conflicting-config",
+  "private": true,
+  "engines": { "node": ">=20" },
+  "scripts": { "start": "node index.js" }
+}

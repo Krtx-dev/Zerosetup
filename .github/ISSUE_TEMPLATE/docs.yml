@@ -1,0 +1,7 @@
+name: Documentation improvement
+description: Something is unclear, missing or wrong
+labels: [documentation]
+body:
+  - type: textarea
+    attributes: { label: Where and what }
+    validations: { required: true }

@@ -1,0 +1,8 @@
+$ curl -s http://127.0.0.1:4317/
+Hello from fixture-express-services: postgres-ok redis-ok
+$ zerosetup export zs5102be08 -o passport.json && zerosetup remove zs5102be08
+passport written to /dev/null
+
+  [ok] Removed 3 containers, 3 volumes, 1 networks
+  [ok] Verified: no resources labelled with session zs5102be08 remain
+

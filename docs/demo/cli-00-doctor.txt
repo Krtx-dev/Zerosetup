@@ -1,0 +1,13 @@
+$ zerosetup doctor
+
+ZEROSETUP  doctor
+
+  [ok] host platform      darwin/arm64
+  [ok] git                /usr/bin/git (used only to fetch remote repositories, hooks disabled)
+  [ok] data directory     ~/Documents/CLAUDE PROJECTS/ZEROSETUP/.tools/zs-demo
+  [ok] session database   ~/Documents/CLAUDE PROJECTS/ZEROSETUP/.tools/zs-demo/zerosetup.db
+  [ok] container engine   Docker 29.5.2 (API 1.54) at unix://~/.colima/default/docker.sock [docker context colima] — Ubuntu 24.04.4 LTS aarch64, 4 CPUs, 5.8 GiB
+  [ok] resource limits    memory and PIDs limits enforceable (cgroup 2)
+  [!] isolation          containers are not a strong security boundary and outbound network is not filtered
+                       → Only run repositories you are willing to trust with network access from a container. See docs/THREAT_MODEL.md.
+

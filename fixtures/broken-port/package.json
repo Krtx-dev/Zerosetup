@@ -1,0 +1,5 @@
+{
+  "name": "fixture-broken-port",
+  "private": true,
+  "scripts": { "start": "node server.js" }
+}

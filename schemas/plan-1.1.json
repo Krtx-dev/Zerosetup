@@ -1,0 +1,356 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zerosetup.dev/schemas/plan-1.1.json",
+  "title": "ZEROSETUP Execution Plan 1.1 (also validates 1.0)",
+  "description": "Hash = sha256 of the canonical JSON (fields in this order, no extra whitespace). Authoritative validation lives in pkg/planschema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "source",
+    "stack",
+    "image",
+    "steps",
+    "start",
+    "ports",
+    "env",
+    "readiness",
+    "resources",
+    "network",
+    "filesystem",
+    "decisions",
+    "warnings",
+    "conflicts",
+    "existingConfigs",
+    "compatibility",
+    "overrides"
+  ],
+  "$defs": {
+    "kind": {
+      "enum": [
+        "USER_OVERRIDE",
+        "DETECTED",
+        "INFERRED",
+        "DEFAULT",
+        "UNSUPPORTED"
+      ]
+    },
+    "command": {
+      "type": "object",
+      "required": [
+        "argv"
+      ],
+      "properties": {
+        "argv": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "workdir": {
+          "type": "string",
+          "not": {
+            "pattern": "(^/|(^|/)\\.\\.(/|$))"
+          }
+        }
+      }
+    }
+  },
+  "properties": {
+    "schemaVersion": {
+      "enum": [
+        "1.0",
+        "1.1"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "kind",
+        "contentHash"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "github",
+            "local"
+          ]
+        }
+      }
+    },
+    "stack": {
+      "type": "object"
+    },
+    "image": {
+      "type": "object",
+      "required": [
+        "reference"
+      ]
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "stage",
+          "command",
+          "needsNetwork",
+          "timeoutSec",
+          "reason"
+        ],
+        "properties": {
+          "stage": {
+            "enum": [
+              "install",
+              "build"
+            ]
+          },
+          "command": {
+            "$ref": "#/$defs/command"
+          },
+          "timeoutSec": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3600
+          }
+        }
+      }
+    },
+    "start": {
+      "$ref": "#/$defs/command"
+    },
+    "ports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "containerPort",
+          "protocol"
+        ],
+        "properties": {
+          "containerPort": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "protocol": {
+            "const": "http"
+          }
+        }
+      }
+    },
+    "env": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "kind"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,127}$"
+          },
+          "kind": {
+            "$ref": "#/$defs/kind"
+          }
+        },
+        "if": {
+          "properties": {
+            "secret": {
+              "const": true
+            }
+          },
+          "required": [
+            "secret"
+          ]
+        },
+        "then": {
+          "not": {
+            "required": [
+              "value"
+            ]
+          }
+        }
+      }
+    },
+    "readiness": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "type",
+          "port",
+          "timeoutSec"
+        ],
+        "properties": {
+          "type": {
+            "const": "http"
+          }
+        }
+      }
+    },
+    "resources": {
+      "type": "object",
+      "required": [
+        "cpus",
+        "memoryMB",
+        "pidsLimit",
+        "logMaxSizeMB",
+        "startTimeoutSec"
+      ]
+    },
+    "network": {
+      "type": "object",
+      "required": [
+        "publishHost",
+        "outboundFiltered"
+      ],
+      "properties": {
+        "publishHost": {
+          "const": "127.0.0.1"
+        }
+      }
+    },
+    "filesystem": {
+      "type": "object",
+      "properties": {
+        "hostMounts": {
+          "const": false
+        }
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "field",
+          "value",
+          "kind",
+          "certainty",
+          "reason"
+        ],
+        "properties": {
+          "kind": {
+            "$ref": "#/$defs/kind"
+          },
+          "certainty": {
+            "enum": [
+              "declared",
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        }
+      }
+    },
+    "warnings": {
+      "type": "array"
+    },
+    "conflicts": {
+      "type": "array"
+    },
+    "existingConfigs": {
+      "type": "array"
+    },
+    "compatibility": {
+      "type": "object",
+      "required": [
+        "runnable",
+        "level"
+      ],
+      "properties": {
+        "level": {
+          "enum": [
+            "supported",
+            "experimental",
+            "unsupported"
+          ]
+        }
+      }
+    },
+    "overrides": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "services": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "image",
+          "alias",
+          "port",
+          "user",
+          "dataDir",
+          "readyCommand",
+          "reason"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "postgres",
+              "redis"
+            ]
+          },
+          "image": {
+            "type": "string"
+          },
+          "alias": {
+            "type": "string"
+          },
+          "port": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "user": {
+            "type": "string",
+            "not": {
+              "pattern": "^0(:|$)"
+            }
+          },
+          "dataDir": {
+            "type": "string"
+          },
+          "tmpfs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "command": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "env": {
+            "type": "array"
+          },
+          "readyCommand": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

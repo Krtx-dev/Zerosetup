@@ -1,0 +1,11 @@
+name: Framework support request
+description: Ask for a new language, framework or package manager
+labels: [detector]
+body:
+  - type: input
+    attributes: { label: Framework / package manager }
+    validations: { required: true }
+  - type: textarea
+    attributes: { label: Example public repositories, description: "Small, representative repos pinned to a commit" }
+  - type: textarea
+    attributes: { label: How it is usually started, description: "Dev command, default port, how to bind 0.0.0.0" }

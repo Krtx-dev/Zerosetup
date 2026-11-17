@@ -1,0 +1,100 @@
+$ zerosetup plan fixtures/express-services --with-service postgres --with-service redis
+
+ZEROSETUP  plan
+
+  [ok] Repository resolved  ~/Documents/CLAUDE PROJECTS/ZEROSETUP/fixtures/express-services
+  [!] Local directory is not a git checkout (or HEAD is unreadable); identified by content hash sha256:f0480b98a2d1
+  [ok] Inspected without executing code  (3 files, 1 ms)
+
+  Detected
+  Language       JavaScript/TypeScript DETECTED     
+                 package.json exists at the repository root
+  Framework      Express DETECTED     
+                 package.json declares express as a dependency
+  Runtime        node 24 DEFAULT      
+                 no Node.js version declared; using the documented default (Node.js 24 LTS)
+  Packages       npm DETECTED     
+                 npm selected because package-lock.json exists
+  Start          node index.js DETECTED     
+                 scripts.start is a plain node invocation; run directly
+  Port           3000 INFERRED     
+                 port 3000 found in index.js
+  Services       postgres (package.json: depends on pg), redis (package.json: depends on redis) UNSUPPORTED  
+                 likely needed; not provisioned automatically in this version
+
+  Execution plan
+  Image          docker.io/library/node:24-slim
+  1. install     npm ci --no-audit --no-fund  [network]
+                 lockfile present: npm ci installs exactly the locked versions
+  2. start       node index.js
+  Service        postgres (docker.io/library/postgres:17-alpine) as "postgres" on the private session network, uid 70:70, not published USER_OVERRIDE
+                 ready when: pg_isready -h 127.0.0.1 -U postgres -d app
+  Service        redis (docker.io/library/redis:8-alpine) as "redis" on the private session network, uid 999:1000, not published USER_OVERRIDE
+                 ready when: redis-cli ping
+  Readiness      listening socket on :3000, then HTTP GET / (timeout 180s)
+  Limits         2 CPU · 2048 MB · 1024 PIDs · logs 10 MB
+  Isolation      non-root uid 1000 · all capabilities dropped · no-new-privileges · read-only rootfs · no host mounts
+  Network        preview on 127.0.0.1 only · outbound internet NOT filtered (install and runtime)
+
+  Environment
+  DATABASE_URL   postgres://postgres@postgres:5432/app INFERRED     
+                 managed PostgreSQL on the session network
+  PGDATABASE     app INFERRED     
+                 managed PostgreSQL
+  PGHOST         postgres INFERRED     
+                 managed PostgreSQL
+  PGUSER         postgres INFERRED     
+                 managed PostgreSQL
+  PORT           3000 INFERRED     
+                 Node.js services conventionally read PORT
+  REDIS_URL      redis://redis:6379 INFERRED     
+                 managed Redis on the session network
+
+  Warnings
+  [!] no Node.js version declared; using the documented default (Node.js 24 LTS)
+
+  Compatibility
+  [ok] Supported
+
+  plan 9f61f1aa7f69
+
+$ zerosetup run fixtures/express-services --with-service postgres --with-service redis --approve 9f61f1aa7f69 -q
+
+ZEROSETUP  run
+
+
+  › Preparing environment
+     0.0s - container engine docker 29.5.2 (Ubuntu 24.04.4 LTS, aarch64)
+     0.0s - acquiring image docker.io/library/node:24-slim
+     0.0s [ok] image already present (node@sha256:01d566e8d94d8c619591d78652babfccd3c6992a3dffa9ed5ab39e11cf6c70e9, linux/arm64)
+     0.1s - copied 3 files (38.5 KiB) into workspace volume
+     0.1s - package cache volume zerosetup-cache-node is warm (reused from earlier runs)
+
+  › Installing dependencies
+     0.1s - Install dependencies: npm ci --no-audit --no-fund
+        │   added 85 packages in 698ms
+     1.0s - Install dependencies finished with exit code 0 in 900ms
+     1.0s [ok] dependencies installed
+
+  › Starting application
+     1.0s - acquiring image docker.io/library/postgres:17-alpine
+     1.0s - starting postgres (docker.io/library/postgres:17-alpine) as postgres on the private session network
+     2.1s [ok] postgres ready (pg_isready -h 127.0.0.1 -U postgres -d app answered) in 1.2s
+     2.1s - acquiring image docker.io/library/redis:8-alpine
+     2.2s - starting redis (docker.io/library/redis:8-alpine) as redis on the private session network
+     2.2s [ok] redis ready (redis-cli ping answered) in 100ms
+     2.3s [ok] process started: node index.js (container 89be87299132, port 3000 → 127.0.0.1:4317)
+
+  › Verifying readiness
+     2.3s … waiting for readiness (0s elapsed, no listening sockets yet)
+     2.6s [ok] port 3000 listening on all interfaces inside the container
+     2.7s [ok] HTTP 200 from GET / in 34ms
+     2.7s [ok] application healthy
+
+  [ok] Application ready
+
+  http://127.0.0.1:4317
+
+  session zs5102be08 · healthy
+  logs: zerosetup logs zs5102be08 -f · stop: zerosetup stop zs5102be08 · passport: zerosetup export zs5102be08
+

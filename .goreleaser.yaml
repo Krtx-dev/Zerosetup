@@ -1,0 +1,24 @@
+# GoReleaser v2. Nothing is published without an explicit maintainer decision.
+version: 2
+before:
+  hooks:
+    - make dashboard-deps dashboard
+builds:
+  - main: ./cmd/zerosetup
+    env: [CGO_ENABLED=0]
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+    flags: [-trimpath]
+    ldflags: ["-s -w -X github.com/zerosetup/zerosetup/internal/engine.Version={{.Version}}"]
+archives:
+  - formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files: [LICENSE, README.md, SECURITY.md, docs/THREAT_MODEL.md]
+checksum:
+  name_template: checksums.txt
+changelog:
+  use: github
+release:
+  draft: true

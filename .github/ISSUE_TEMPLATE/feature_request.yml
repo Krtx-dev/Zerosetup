@@ -1,0 +1,9 @@
+name: Feature request
+description: Suggest an improvement
+labels: [enhancement]
+body:
+  - type: textarea
+    attributes: { label: Problem, description: What friction does this remove? }
+    validations: { required: true }
+  - type: textarea
+    attributes: { label: Proposal and security considerations }

@@ -1,0 +1,5 @@
+{
+  "name": "fixture-missing-start-script",
+  "private": true,
+  "scripts": { "test": "echo no tests" }
+}

@@ -1,0 +1,5 @@
+{
+  "name": "fixture-loopback-default",
+  "private": true,
+  "scripts": { "start": "node server.js" }
+}

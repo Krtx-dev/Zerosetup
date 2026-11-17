@@ -1,0 +1,12 @@
+name: Bug report
+description: Something did not work as documented
+labels: [bug]
+body:
+  - type: input
+    attributes: { label: Repository or fixture, description: "URL + commit, or a minimal reproduction" }
+    validations: { required: true }
+  - type: textarea
+    attributes: { label: What happened, description: "Include `zerosetup status <id> --json` and the passport (both are secret-free)." }
+    validations: { required: true }
+  - type: input
+    attributes: { label: zerosetup version and OS, description: "`zerosetup version`, `zerosetup doctor --json`" }

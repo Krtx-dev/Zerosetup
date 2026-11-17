@@ -1,0 +1,518 @@
+{
+  "updated": "2026-11-06",
+  "statuses": [
+    "NOT_STARTED",
+    "IN_PROGRESS",
+    "IMPLEMENTED_UNTESTED",
+    "TESTED",
+    "BLOCKED"
+  ],
+  "items": [
+    {
+      "id": "SRC-1",
+      "feature": "GitHub URL validation + allowlist",
+      "phase": 1,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "internal/source TestParseGitHubURL"
+      ],
+      "blockers": [],
+      "notes": ""
+    },
+    {
+      "id": "SRC-2",
+      "feature": "Local directory source + HEAD without git exec",
+      "phase": 1,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "internal/source TestResolveLocal"
+      ],
+      "blockers": [],
+      "notes": ""
+    },
+    {
+      "id": "SRC-3",
+      "feature": "RepoFS symlink/traversal confinement (os.Root)",
+      "phase": 1,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "TestRepoFSRejectsSymlinkEscape"
+      ],
+      "blockers": [],
+      "notes": ""
+    },
+    {
+      "id": "SRC-4",
+      "feature": "Remote fetch (ls-remote + shallow fetch, hooks disabled, size limit)",
+      "phase": 1,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [],
+      "blockers": [],
+      "notes": "TestGitHubSource: vitejs/vite template at a pinned SHA, cache hit on re-inspect"
+    },
+    {
+      "id": "DET-1",
+      "feature": "Node detector (npm, Vite, Next, Express, plain)",
+      "phase": 1,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "internal/inspector TestFixturePlans"
+      ],
+      "blockers": [],
+      "notes": ""
+    },
+    {
+      "id": "DET-2",
+      "feature": "pnpm / yarn install path",
+      "phase": 3,
+      "priority": "P1",
+      "status": "TESTED",
+      "dependencies": [
+        "DET-1"
+      ],
+      "tests": [],
+      "blockers": [],
+      "notes": "vite-pnpm and express-yarn integration fixtures"
+    },
+    {
+      "id": "DET-3",
+      "feature": "Python FastAPI (pip)",
+      "phase": 3,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "integration fastapi"
+      ],
+      "blockers": [],
+      "notes": ""
+    },
+    {
+      "id": "DET-4",
+      "feature": "uv projects",
+      "phase": 3,
+      "priority": "P2",
+      "status": "TESTED",
+      "dependencies": [
+        "DET-3"
+      ],
+      "tests": [],
+      "blockers": [],
+      "notes": "fastapi-uv integration fixture; still labelled experimental in plans"
+    },
+    {
+      "id": "DET-5",
+      "feature": "Existing spec analysis (not executed)",
+      "phase": 1,
+      "priority": "P1",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "TestUnsafeComposeIsFlaggedNotUsed"
+      ],
+      "blockers": [],
+      "notes": ""
+    },
+    {
+      "id": "PLAN-1",
+      "feature": "Versioned plan, canonical hash, validation, migration",
+      "phase": 1,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "pkg/planschema"
+      ],
+      "blockers": [],
+      "notes": ""
+    },
+    {
+      "id": "PLAN-2",
+      "feature": "Precedence + closed overrides",
+      "phase": 1,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [
+        "PLAN-1"
+      ],
+      "tests": [
+        "TestOverridesWinAndChangeHash"
+      ],
+      "blockers": [],
+      "notes": ""
+    },
+    {
+      "id": "POL-1",
+      "feature": "Fail-closed policy",
+      "phase": 2,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "internal/policy"
+      ],
+      "blockers": [],
+      "notes": ""
+    },
+    {
+      "id": "RT-1",
+      "feature": "Docker backend with enforced hardening",
+      "phase": 2,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "tests/integration"
+      ],
+      "blockers": [],
+      "notes": "Verified with docker inspect"
+    },
+    {
+      "id": "EXE-1",
+      "feature": "Approval-gated execution pipeline",
+      "phase": 2,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [
+        "RT-1",
+        "POL-1"
+      ],
+      "tests": [
+        "engine tests",
+        "integration"
+      ],
+      "blockers": [],
+      "notes": ""
+    },
+    {
+      "id": "RDY-1",
+      "feature": "Socket + HTTP readiness, loopback detection",
+      "phase": 2,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "internal/readiness",
+        "integration broken-port/unhealthy"
+      ],
+      "blockers": [],
+      "notes": ""
+    },
+    {
+      "id": "SES-1",
+      "feature": "SQLite sessions + reconciliation",
+      "phase": 4,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "internal/store",
+        "TestReconcileDetectsExitedContainer"
+      ],
+      "blockers": [],
+      "notes": ""
+    },
+    {
+      "id": "SES-2",
+      "feature": "Docker daemon restart recovery",
+      "phase": 4,
+      "priority": "P1",
+      "status": "TESTED",
+      "dependencies": [
+        "SES-1"
+      ],
+      "tests": [],
+      "blockers": [],
+      "notes": "TestDaemonRestart (opt-in ZS_DAEMON_RESTART_CMD); restart confirmed via systemctl"
+    },
+    {
+      "id": "PASS-1",
+      "feature": "Reproducibility passport export",
+      "phase": 4,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "engine + integration"
+      ],
+      "blockers": [],
+      "notes": "JSON Schema in schemas/"
+    },
+    {
+      "id": "PASS-2",
+      "feature": "Passport import/replay",
+      "phase": 8,
+      "priority": "P2",
+      "status": "TESTED",
+      "dependencies": [
+        "PASS-1"
+      ],
+      "tests": [],
+      "blockers": [],
+      "notes": "zerosetup replay: unit tests + TestReplayAgainstDocker"
+    },
+    {
+      "id": "DIAG-1",
+      "feature": "Deterministic diagnostics",
+      "phase": 6,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "internal/diagnostics"
+      ],
+      "blockers": [],
+      "notes": ""
+    },
+    {
+      "id": "REP-1",
+      "feature": "Repairs via plan overrides + revert",
+      "phase": 6,
+      "priority": "P1",
+      "status": "TESTED",
+      "dependencies": [
+        "DIAG-1"
+      ],
+      "tests": [
+        "TestLoopbackFailureAndRepair"
+      ],
+      "blockers": [],
+      "notes": "fake backend + TestRepairAgainstDocker (loopback-default)"
+    },
+    {
+      "id": "SVC-1",
+      "feature": "Managed Postgres/Redis",
+      "phase": 6,
+      "priority": "P1",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [],
+      "blockers": [],
+      "notes": "--with-service postgres|redis; express-services integration fixture"
+    },
+    {
+      "id": "API-1",
+      "feature": "Loopback API, token, Host/Origin checks, SSE",
+      "phase": 5,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "internal/api"
+      ],
+      "blockers": [],
+      "notes": ""
+    },
+    {
+      "id": "UI-1",
+      "feature": "Dashboard screens",
+      "phase": 5,
+      "priority": "P0",
+      "status": "TESTED",
+      "dependencies": [
+        "API-1"
+      ],
+      "tests": [
+        "dashboard vitest",
+        "manual walkthrough against the real engine"
+      ],
+      "blockers": [],
+      "notes": ""
+    },
+    {
+      "id": "E2E-1",
+      "feature": "Playwright e2e against the real engine",
+      "phase": 5,
+      "priority": "P1",
+      "status": "TESTED",
+      "dependencies": [
+        "UI-1"
+      ],
+      "tests": [
+        "dashboard/e2e/run-fixture.spec.ts"
+      ],
+      "blockers": [],
+      "notes": "Passes against real binary + Colima Docker (bundled Chromium via PLAYWRIGHT_BROWSERS_PATH); teardown removes all sessions it created"
+    },
+    {
+      "id": "CI-1",
+      "feature": "GitHub Actions CI",
+      "phase": 7,
+      "priority": "P0",
+      "status": "IMPLEMENTED_UNTESTED",
+      "dependencies": [],
+      "tests": [],
+      "blockers": [
+        "Needs a GitHub repository and the user's approval to push"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "REL-1",
+      "feature": "GoReleaser packaging",
+      "phase": 7,
+      "priority": "P1",
+      "status": "BLOCKED",
+      "dependencies": [
+        "CI-1"
+      ],
+      "tests": [],
+      "blockers": [
+        "Running goreleaser locally was blocked by the session's permission policy; needs the user's approval or CI"
+      ],
+      "notes": "Running goreleaser locally was blocked by the session's permission policy; needs the user's approval or CI"
+    },
+    {
+      "id": "PLAT-1",
+      "feature": "Linux + macOS Intel verification",
+      "phase": 7,
+      "priority": "P1",
+      "status": "IN_PROGRESS",
+      "dependencies": [],
+      "tests": [],
+      "blockers": [],
+      "notes": "Linux arm64 unit tests pass in a container; Linux integration only in CI (not yet run); macOS Intel untested"
+    },
+    {
+      "id": "ISO-1",
+      "feature": "MicroVM isolation backend",
+      "phase": 8,
+      "priority": "P2",
+      "status": "NOT_STARTED",
+      "dependencies": [],
+      "tests": [],
+      "blockers": [],
+      "notes": "Design in docs/ISOLATION.md; needs KVM or a signed macOS helper"
+    },
+    {
+      "id": "SCHEMA-1",
+      "feature": "JSON Schemas for plan/passport",
+      "phase": 4,
+      "priority": "P2",
+      "status": "TESTED",
+      "dependencies": [
+        "PASS-1"
+      ],
+      "tests": [],
+      "blockers": [],
+      "notes": "TestGeneratedArtifactsMatchSchemas validates real plans and passports"
+    },
+    {
+      "id": "DET-6",
+      "feature": "Flask and Django",
+      "phase": 3,
+      "priority": "P1",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "integration flask, django"
+      ],
+      "blockers": [],
+      "notes": "Django migrations never run automatically"
+    },
+    {
+      "id": "DET-7",
+      "feature": "Workspaces (--workspace) for npm, pnpm, Yarn 1",
+      "phase": 3,
+      "priority": "P1",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "integration monorepo-npm-workspace"
+      ],
+      "blockers": [],
+      "notes": "monorepo-npm/pnpm/yarn fixtures; Yarn 2+ workspaces unsupported"
+    },
+    {
+      "id": "MODE-1",
+      "feature": "Production mode",
+      "phase": 3,
+      "priority": "P1",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "integration vite-production, nextjs-production"
+      ],
+      "blockers": [],
+      "notes": "vite, nextjs, flask-gunicorn, django-gunicorn production fixtures"
+    },
+    {
+      "id": "DEMO-1",
+      "feature": "Demo assets (screenshots, CLI transcripts)",
+      "phase": 7,
+      "priority": "P2",
+      "status": "TESTED",
+      "dependencies": [],
+      "tests": [
+        "e2e capture via ZS_CAPTURE_DIR"
+      ],
+      "blockers": [],
+      "notes": "GitHub-repo demo recording needs user approval (blocked by permission policy outside tests)"
+    },
+    {
+      "id": "NAME-1",
+      "feature": "Name/trademark/domain decision",
+      "phase": 7,
+      "priority": "P1",
+      "status": "BLOCKED",
+      "dependencies": [],
+      "tests": [],
+      "blockers": [
+        "Owner decision; npm name zerosetup is taken by an unrelated package"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "EGRESS-1",
+      "feature": "Egress filtering",
+      "phase": 8,
+      "priority": "P2",
+      "status": "NOT_STARTED",
+      "dependencies": [],
+      "tests": [],
+      "blockers": [],
+      "notes": "Design in docs/ISOLATION.md"
+    },
+    {
+      "id": "DET-8",
+      "feature": "Yarn 4 (Berry) with nodeLinker: node-modules",
+      "phase": 3,
+      "priority": "P2",
+      "status": "TESTED",
+      "dependencies": [
+        "DET-2"
+      ],
+      "tests": [
+        "integration express-yarn-berry",
+        "TestMoreWorkspacesAndYarnPnP"
+      ],
+      "blockers": [],
+      "notes": "Plug'n'Play refused with a reason"
+    },
+    {
+      "id": "DIAG-2",
+      "feature": "Diagnostics: DisallowedHost, exit 127, Python address in use",
+      "phase": 6,
+      "priority": "P2",
+      "status": "TESTED",
+      "dependencies": [
+        "DIAG-1"
+      ],
+      "tests": [
+        "internal/diagnostics"
+      ],
+      "blockers": [],
+      "notes": ""
+    }
+  ]
+}

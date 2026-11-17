@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zerosetup.dev/schemas/passport-1.1.json",
+  "title": "ZEROSETUP Reproducibility Passport 1.1 (also validates 1.0)",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "kind",
+    "generator",
+    "session",
+    "source",
+    "environment",
+    "dependencies",
+    "execution",
+    "verification",
+    "platform",
+    "exclusions",
+    "plan"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "enum": [
+        "1.0",
+        "1.1"
+      ]
+    },
+    "kind": {
+      "const": "zerosetup.passport"
+    },
+    "generator": {
+      "type": "object",
+      "required": [
+        "name",
+        "version"
+      ]
+    },
+    "session": {
+      "type": "object",
+      "required": [
+        "id",
+        "state",
+        "attempt",
+        "createdAt",
+        "exportedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^zs[0-9a-f]{8}$"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "kind",
+        "contentHash"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "github",
+            "local"
+          ]
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "contentHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "required": [
+        "runtime",
+        "runtimeVersion",
+        "baseImage",
+        "environmentVariables"
+      ],
+      "properties": {
+        "environmentVariables": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "kind"
+            ],
+            "if": {
+              "properties": {
+                "secret": {
+                  "const": true
+                }
+              },
+              "required": [
+                "secret"
+              ]
+            },
+            "then": {
+              "not": {
+                "required": [
+                  "value"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "required": [
+        "manifests",
+        "locked"
+      ],
+      "properties": {
+        "manifests": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "file",
+              "sha256",
+              "lockfile"
+            ],
+            "properties": {
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "required": [
+        "planSchemaVersion",
+        "planHash",
+        "steps",
+        "start",
+        "status"
+      ],
+      "properties": {
+        "planHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "required": [
+        "milestones"
+      ]
+    },
+    "platform": {
+      "type": "object",
+      "required": [
+        "hostOs",
+        "hostArch"
+      ]
+    },
+    "exclusions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "plan": {
+      "$ref": "plan-1.1.json"
+    }
+  }
+}

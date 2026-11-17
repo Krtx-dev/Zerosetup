@@ -1,0 +1,50 @@
+$ zerosetup repair zs32e810ea --apply bind-all-interfaces
+
+ZEROSETUP  repair zs32e810ea
+
+  [ok] Applied to the plan (repository unchanged): Set HOST=0.0.0.0
+      env HOST: (unset) → 0.0.0.0
+
+  plan efe1cd01c6b9 → 1c3e22bcd9d8
+  Run with approval: zerosetup run --session zs32e810ea
+  Undo: zerosetup repair zs32e810ea --revert
+
+$ zerosetup run --session zs32e810ea --approve 1c3e22bcd9d8
+
+ZEROSETUP  run zs32e810ea
+
+  - session zs32e810ea (AWAITING_APPROVAL) · plan 1c3e22bcd9d8
+
+  › Preparing environment
+     0.0s - container engine docker 29.5.2 (Ubuntu 24.04.4 LTS, aarch64)
+     0.0s - acquiring image docker.io/library/node:24-slim
+     0.0s [ok] image already present (node@sha256:01d566e8d94d8c619591d78652babfccd3c6992a3dffa9ed5ab39e11cf6c70e9, linux/arm64)
+     0.0s - copied 3 files (684 B) into workspace volume
+     0.1s - package cache volume zerosetup-cache-node is warm (reused from earlier runs)
+
+  › Installing dependencies
+     0.1s - Install dependencies: npm ci --no-audit --no-fund
+        │   up to date in 96ms
+     0.3s - Install dependencies finished with exit code 0 in 200ms
+     0.3s [ok] dependencies installed
+
+  › Starting application
+     0.4s [ok] process started: node server.js (container edcfd8751603, port 3000 → 127.0.0.1:4317)
+
+  › Verifying readiness
+     0.4s [ok] port 3000 listening on all interfaces inside the container
+     0.4s [ok] HTTP 200 from GET / in 2ms
+     0.4s [ok] application healthy
+
+  [ok] Application ready
+
+  http://127.0.0.1:4317
+
+  session zs32e810ea · healthy
+  logs: zerosetup logs zs32e810ea -f · stop: zerosetup stop zs32e810ea · passport: zerosetup export zs32e810ea
+
+$ zerosetup remove zs32e810ea
+
+  [ok] Removed 1 containers, 1 volumes, 1 networks
+  [ok] Verified: no resources labelled with session zs32e810ea remain
+

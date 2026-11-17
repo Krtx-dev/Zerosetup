@@ -1,0 +1,5 @@
+{
+  "name": "fixture-monorepo-yarn",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"]
+}
